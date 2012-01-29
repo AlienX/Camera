@@ -255,7 +255,8 @@ function Camera:convertScreenToWorldPosition( x, y, centred )
 	local posX, posY = self:getPosition()	
 	local scaleX, scaleY = self:getScale()
 	
-	local newX, newY = -x * scaleX + posX, -y * scaleY + posY
+	--local newX, newY = -x * scaleX + posX, -y * scaleY + posY
+	local newX, newY = ( -x + posX ) / scaleX, ( -y + posY ) / scaleY
 	
 	if centred then
 		newX = newX + display.contentWidth / 2
@@ -372,7 +373,15 @@ end
 -- Gets the size of the content in the Camera.
 -- @return The width and height of the content.
 function Camera:getContentSize()
-	return self:getView().contentWidth, self:getView().contentHeight
+	return self._contentWidth or self:getView().contentWidth, self._contentHeight or self:getView().contentHeight
+end
+
+-- Sets the size of the content in the Camera.
+-- @params width The width of the content.
+-- @params height The height of the content.
+function Camera:setContentSize( width, height )
+	self._contentWidth = width
+	self._contentHeight = height
 end
 
 --- Cleans up the camera.
