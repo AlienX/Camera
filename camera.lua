@@ -311,6 +311,16 @@ function Camera:transitionTo( transitionParams )
 		self._transition = nil
 	end
 
+	local scaleX, scaleY = self:getScale()
+	
+	if transitionParams.x then
+		transitionParams.x = transitionParams.x * scaleX
+	end
+	
+	if transitionParams.y then
+		transitionParams.y = transitionParams.y * scaleY
+	end
+	
 	self._transition = transition.to( self:getView(), transitionParams )
 	
 	return self._transition
